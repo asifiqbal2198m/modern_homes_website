@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import WhyChooseUs from "./WhyChooseUs";
 
 const Hero = () => {
   return (
@@ -42,19 +43,7 @@ const Hero = () => {
 
           {/* Right Content */}
           <div className="flex justify-center">
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-10 w-full max-w-md shadow-xl">
-              <h2 className="text-3xl font-bold mb-6">
-                Why Choose Us?
-              </h2>
-
-              <ul className="space-y-4 text-lg">
-                <li>✔ Premium Quality Products</li>
-                <li>✔ Affordable Pricing</li>
-                <li>✔ Expert Installation</li>
-                <li>✔ Modern Interior Designs</li>
-                <li>✔ Trusted Customer Service</li>
-              </ul>
-            </div>
+            <WhyChooseUs compact />
           </div>
 
         </div>
