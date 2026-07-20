@@ -182,3 +182,42 @@
     border-right-color: var(--border);
   }
 }
+
+/* Admin dashboard animations */
+@keyframes mh-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mh-animate-fade-up {
+  animation: mh-fade-up 360ms ease forwards;
+}
+
+.mh-card-hover {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.mh-card-hover:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+}
+
+.mh-file-input {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.mh-btn-animated {
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 150ms;
+}
+.mh-btn-animated:active { transform: translateY(1px) scale(.995); }
+
+.mh-skeleton {
+  background: linear-gradient(90deg, rgba(230,230,230,1) 0%, rgba(245,245,245,1) 50%, rgba(230,230,230,1) 100%);
+  background-size: 200% 100%;
+  animation: mh-skeleton-loading 900ms linear infinite;
+}
+@keyframes mh-skeleton-loading {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}

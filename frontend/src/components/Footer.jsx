@@ -57,13 +57,15 @@ const Footer = () => {
 
             <p>Email: info@modernhomes.com</p>
 
-            <p className="mt-2">
-              Phone: +91 9876543210
-            </p>
+            <p className="mt-2">Phone: <a href="tel:+919906232020" className="hover:text-blue-300">+91 99062 32020</a></p>
+
+            <p className="mt-2"><a href="https://wa.me/919906232020" target="_blank" rel="noreferrer" className="hover:text-blue-300">WhatsApp us</a></p>
 
             <p className="mt-2">
-              Srinagar, Jammu & Kashmir
+              Matto Complex, Gulmarg Road, Magam, Jammu & Kashmir 193401
             </p>
+
+            <p className="mt-2">Hours: Monday–Saturday, 9 am–7 pm · Sunday, closed</p>
 
           </div>
 

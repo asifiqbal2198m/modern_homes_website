@@ -42,13 +42,24 @@ const Navbar = () => {
               Gallery
             </NavLink>
 
+            <NavLink to="/posts" className={navLinkClass}>
+              Posts
+            </NavLink>
+
             <NavLink to="/contact" className={navLinkClass}>
               Contact
             </NavLink>
 
-            <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-              Get Quote
-            </button>
+            <NavLink to="/admin" className={navLinkClass}>
+              Admin
+            </NavLink>
+
+            <Link
+              to="/contact"
+              className="rounded-full bg-blue-600 px-5 py-2 font-semibold text-white transition hover:bg-blue-700"
+            >
+              Free Consultation
+            </Link>
 
           </div>
 
@@ -64,30 +75,38 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden flex flex-col gap-4 py-4">
+          <div className="md:hidden flex flex-col gap-4 border-t border-slate-200 py-4">
 
-            <NavLink to="/" className={navLinkClass}>
+            <NavLink to="/" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Home
             </NavLink>
 
-            <NavLink to="/about" className={navLinkClass}>
+            <NavLink to="/about" className={navLinkClass} onClick={() => setIsOpen(false)}>
               About
             </NavLink>
 
-            <NavLink to="/products" className={navLinkClass}>
+            <NavLink to="/products" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Products
             </NavLink>
 
-            <NavLink to="/services" className={navLinkClass}>
+            <NavLink to="/services" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Services
             </NavLink>
 
-            <NavLink to="/gallery" className={navLinkClass}>
+            <NavLink to="/gallery" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Gallery
             </NavLink>
 
-            <NavLink to="/contact" className={navLinkClass}>
+            <NavLink to="/posts" className={navLinkClass} onClick={() => setIsOpen(false)}>
+              Posts
+            </NavLink>
+
+            <NavLink to="/contact" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Contact
+            </NavLink>
+
+            <NavLink to="/admin" className={navLinkClass} onClick={() => setIsOpen(false)}>
+              Admin
             </NavLink>
 
           </div>

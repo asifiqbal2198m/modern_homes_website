@@ -1,6 +1,6 @@
 const ServiceCard = ({ title, description, image }) => {
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+    <div className="group animate-fade-up overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
 
       {/* Image Section */}
       <div className="h-64 flex items-center justify-center bg-gray-100">

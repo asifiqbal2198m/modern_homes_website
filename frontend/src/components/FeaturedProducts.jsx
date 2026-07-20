@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-
+import { fetchProducts } from "../services/contentApi";
 import wallpaper from "../assets/images/products/wallpaper.jpg";
 import flooring from "../assets/images/products/flooring.jpg";
 import curtains from "../assets/images/products/curtains.jpg";
 
-const products = [
+const fallbackProducts = [
   {
     image: wallpaper,
     title: "Premium Wallpapers",
@@ -26,6 +27,28 @@ const products = [
 ];
 
 const FeaturedProducts = () => {
+  const [products, setProducts] = useState(fallbackProducts);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetchProducts()
+      .then((data) => {
+        if (isMounted && data.length) {
+          setProducts(data);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setProducts(fallbackProducts);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="py-20 bg-white">
 
