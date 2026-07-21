@@ -3,6 +3,12 @@ import os
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.files.storage import storages
+
+
+def get_video_storage():
+    return storages['video_storage']
+
 
 
 def generate_token_key():
@@ -24,7 +30,7 @@ class GalleryImage(models.Model):
     image = models.ImageField(upload_to='gallery/', blank=True, null=True)
     image_url = models.URLField(blank=True, null=True)
     video_url = models.URLField(blank=True, null=True)
-    video = models.FileField(upload_to='gallery/videos/', blank=True, null=True, storage="video_storage")
+    video = models.FileField(upload_to='gallery/videos/', blank=True, null=True, storage=get_video_storage)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -34,7 +40,7 @@ class GalleryImage(models.Model):
 class HomepageMedia(models.Model):
     """The single, admin-managed visual shown in the homepage hero."""
     video_url = models.URLField(blank=True, null=True)
-    video = models.FileField(upload_to='homepage/videos/', blank=True, null=True, storage="video_storage")
+    video = models.FileField(upload_to='homepage/videos/', blank=True, null=True, storage=get_video_storage)
     poster = models.ImageField(upload_to='homepage/posters/', blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True)
 
