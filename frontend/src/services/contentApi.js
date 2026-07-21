@@ -1,4 +1,5 @@
-const API_BASE = '/api';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
+const API_BASE = import.meta.env.VITE_API_BASE || "/api";
 
 const normalizeImageUrl = (value) => {
   if (!value) return null;
@@ -6,9 +7,12 @@ const normalizeImageUrl = (value) => {
     return value;
   }
   if (typeof value === 'string' && value.startsWith('/')) {
+    if (value.startsWith('/media/')) {
+      return `${BACKEND_URL}${value}`;
+    }
     return value;
   }
-  return `/media/${value}`;
+  return `${BACKEND_URL}/media/${value}`;
 };
 
 export const fetchProducts = async () => {
