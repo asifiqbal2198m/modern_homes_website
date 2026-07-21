@@ -46,6 +46,13 @@ CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://modern-ho
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = CSRF_TRUSTED_ORIGINS
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://modern-homes-website.*\.vercel\.app$",
+    r"^http://localhost:.*$",
+    r"^http://127\.0\.0\.1:.*$",
+]
+
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
