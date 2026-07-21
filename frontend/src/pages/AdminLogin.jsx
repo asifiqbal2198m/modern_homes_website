@@ -1,25 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { adminLogin, checkAdminSetup, createFirstAdmin } from '../services/contentApi';
+import { adminLogin, createFirstAdmin } from '../services/contentApi';
 
 const AdminLogin = ({ onLogin }) => {
   const [form, setForm] = useState({ username: '', password: '', email: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [setupRequired, setSetupRequired] = useState(false);
+  const [isSetupMode, setIsSetupMode] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkSetup = async () => {
-      try {
-        const res = await checkAdminSetup();
-        setSetupRequired(res.setup_required);
-      } catch (err) {
-        console.error('Failed to check admin setup status', err);
-      }
-    };
-    checkSetup();
-  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,7 +20,7 @@ const AdminLogin = ({ onLogin }) => {
     setLoading(true);
 
     try {
-      if (setupRequired) {
+      if (isSetupMode) {
         const result = await createFirstAdmin({
           username: form.username,
           password: form.password,
@@ -59,10 +47,10 @@ const AdminLogin = ({ onLogin }) => {
     <section className="bg-luxury-cream py-24 min-h-screen flex items-center justify-center">
       <div className="mx-auto w-full max-w-md rounded-3xl bg-white p-8 sm:p-10 border border-luxury-gold/10 shadow-xl">
         <h1 className="text-3xl font-bold font-serif text-luxury-charcoal">
-          {setupRequired ? 'Create Admin' : 'Admin Login'}
+          {isSetupMode ? 'Create Admin' : 'Admin Login'}
         </h1>
         <p className="mt-2 text-sm text-slate-500 font-light">
-          {setupRequired 
+          {isSetupMode 
             ? 'Welcome! Please create the first master admin account to secure your dashboard.' 
             : 'Sign in to manage catalog, hero media, blog posts, and customer messages.'}
         </p>
@@ -81,7 +69,7 @@ const AdminLogin = ({ onLogin }) => {
             />
           </div>
 
-          {setupRequired && (
+          {isSetupMode && (
             <div>
               <label className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700">Email Address</label>
               <input
@@ -112,9 +100,23 @@ const AdminLogin = ({ onLogin }) => {
             disabled={loading}
             className="w-full rounded-full bg-luxury-bronze hover:bg-luxury-gold text-white px-6 py-3.5 text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-md hover:-translate-y-0.5 disabled:bg-slate-400 disabled:-translate-y-0 cursor-pointer"
           >
-            {loading ? 'Processing...' : (setupRequired ? 'Create Account & Login' : 'Sign In')}
+            {loading ? 'Processing...' : (isSetupMode ? 'Create Account & Login' : 'Sign In')}
           </button>
         </form>
+
+        <div className="mt-6 text-center text-sm text-slate-500 font-light">
+          {isSetupMode ? (
+            <p>
+              Already have an admin account?{' '}
+              <button type="button" onClick={() => setIsSetupMode(false)} className="text-luxury-bronze font-bold hover:underline outline-none">Sign In</button>
+            </p>
+          ) : (
+            <p>
+              Don't have an admin account?{' '}
+              <button type="button" onClick={() => setIsSetupMode(true)} className="text-luxury-bronze font-bold hover:underline outline-none">Create Admin</button>
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );
