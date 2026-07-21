@@ -339,14 +339,19 @@ def admin_gallery_items(request):
     if hasattr(request, 'FILES') and request.FILES.get('video'):
         video_file = request.FILES.get('video')
 
-    item = GalleryImage.objects.create(
-        title=title,
-        image=image_file,
-        video=video_file,
-        image_url=image_url or None,
-        video_url=video_url or None,
-    )
-    return JsonResponse({'success': True, 'id': item.id}, status=201)
+    try:
+        item = GalleryImage.objects.create(
+            title=title,
+            image=image_file,
+            video=video_file,
+            image_url=image_url or None,
+            video_url=video_url or None,
+        )
+        return JsonResponse({'success': True, 'id': item.id}, status=201)
+    except Exception as exc:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': f'Upload failed: {str(exc)}'}, status=400)
 
 
 @csrf_exempt
@@ -388,8 +393,13 @@ def admin_gallery_item_detail(request, item_id):
     if hasattr(request, 'FILES') and request.FILES.get('video'):
         item.video = request.FILES.get('video')
 
-    item.save()
-    return JsonResponse({'success': True})
+    try:
+        item.save()
+        return JsonResponse({'success': True})
+    except Exception as exc:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'error': f'Upload failed: {str(exc)}'}, status=400)
 
 
 @csrf_exempt
