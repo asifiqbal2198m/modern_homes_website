@@ -161,6 +161,10 @@ ADMINS = [
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Media files (Uploaded images and videos)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Cloudinary Media Storage configuration
 CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 
