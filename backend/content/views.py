@@ -70,14 +70,14 @@ def contact_messages_list(request):
 
 
 def check_first_time_setup(request):
-    has_admin = User.objects.filter(is_staff=True).exists()
-    return JsonResponse({'setup_required': not has_admin})
+    admin_count = User.objects.filter(is_staff=True).count()
+    return JsonResponse({'setup_required': admin_count < 2})
 
 @csrf_exempt
 @require_http_methods(['POST'])
 def create_first_admin(request):
-    if User.objects.filter(is_staff=True).exists():
-        return JsonResponse({'error': 'An admin account already exists. Setup is locked.'}, status=403)
+    if User.objects.filter(is_staff=True).count() >= 2:
+        return JsonResponse({'error': 'Maximum number of admin accounts (2) has been reached.'}, status=403)
         
     try:
         data = json.loads(request.body.decode('utf-8') or '{}')
