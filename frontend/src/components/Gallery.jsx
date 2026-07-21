@@ -79,11 +79,11 @@ const Gallery = ({ title = "Our Gallery", showButton = true }) => {
       .then((data) => {
         if (isMounted) {
           setGalleryItems([
-            ...data.filter((item) => item.image).map((item) => ({ src: item.image, alt: item.title, isDemo: false })),
+            ...data.filter((item) => item.image || item.image_url).map((item) => ({ src: item.image || item.image_url, alt: item.title, isDemo: false })),
             ...fallbackGalleryItems,
           ]);
           setVideoItems([
-            ...data.filter((item) => item.videoUrl).map((item) => ({ src: item.videoUrl, alt: item.title, isDemo: false })),
+            ...data.filter((item) => item.video || item.video_url).map((item) => ({ src: item.video || item.video_url, alt: item.title, isDemo: false })),
             ...fallbackVideoItems,
           ]);
         }
