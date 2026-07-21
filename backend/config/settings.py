@@ -166,14 +166,14 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 # Cloudinary Configuration
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
-    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
-}
+USE_CLOUDINARY = bool(os.environ.get("CLOUDINARY_CLOUD_NAME"))
 
-# Use Cloudinary unconditionally to force errors if keys are missing
-USE_CLOUDINARY = True
+if USE_CLOUDINARY:
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+        "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+        "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+    }
 
 # Storage Configuration
 STORAGES = {
