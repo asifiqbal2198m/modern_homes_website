@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'cloudinary_storage',
+    'cloudinary',
     'content',
 ]
 
@@ -159,10 +161,13 @@ ADMINS = [
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Cloudinary Media Storage configuration
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+
 # WhiteNoise storage configuration
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage" if CLOUDINARY_URL else "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
