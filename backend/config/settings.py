@@ -182,7 +182,13 @@ USE_CLOUDINARY = all([
 try:
     from cloudinary_storage.storage import MediaCloudinaryStorage
     class AutoCloudinaryStorage(MediaCloudinaryStorage):
-        RESOURCE_TYPE = 'auto'
+        def _get_resource_type(self, name):
+            if not name:
+                return 'image'
+            ext = name.split('.')[-1].lower() if '.' in name else ''
+            if ext in ['mp4', 'webm', 'ogg', 'mov', 'avi']:
+                return 'video'
+            return 'image'
 except ImportError:
     pass
 
