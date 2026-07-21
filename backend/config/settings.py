@@ -172,12 +172,8 @@ CLOUDINARY_STORAGE = {
     "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
 }
 
-# Use Cloudinary only if all credentials exist
-USE_CLOUDINARY = all([
-    os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    os.environ.get("CLOUDINARY_API_KEY"),
-    os.environ.get("CLOUDINARY_API_SECRET"),
-])
+# Use Cloudinary unconditionally to force errors if keys are missing
+USE_CLOUDINARY = True
 
 # Storage Configuration
 STORAGES = {
