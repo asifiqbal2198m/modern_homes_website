@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -67,6 +68,35 @@ def contact_messages_list(request):
     )
     return JsonResponse(list(messages), safe=False)
 
+
+def check_first_time_setup(request):
+    has_admin = User.objects.filter(is_staff=True).exists()
+    return JsonResponse({'setup_required': not has_admin})
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def create_first_admin(request):
+    if User.objects.filter(is_staff=True).exists():
+        return JsonResponse({'error': 'An admin account already exists. Setup is locked.'}, status=403)
+        
+    try:
+        data = json.loads(request.body.decode('utf-8') or '{}')
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON payload.'}, status=400)
+        
+    username = (data.get('username') or '').strip()
+    email = (data.get('email') or '').strip()
+    password = (data.get('password') or '').strip()
+    
+    if not username or not password:
+        return JsonResponse({'error': 'Username and password are required.'}, status=400)
+        
+    if User.objects.filter(username=username).exists():
+        return JsonResponse({'error': 'Username is already taken.'}, status=400)
+        
+    user = User.objects.create_superuser(username=username, email=email, password=password)
+    token, _ = AdminToken.objects.get_or_create(user=user)
+    return JsonResponse({'token': token.key, 'username': user.username, 'message': 'Admin account created successfully.'})
 
 @csrf_exempt
 @require_http_methods(['POST'])

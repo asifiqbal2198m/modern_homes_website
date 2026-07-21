@@ -9,6 +9,8 @@ urlpatterns = [
     path('api/contact/', views.contact_message, name='contact-message'),
     path('api/contact-messages/', views.contact_messages_list, name='contact-messages-list'),
 
+    path('api/admin/setup/check/', views.check_first_time_setup, name='admin-setup-check'),
+    path('api/admin/setup/create/', views.create_first_admin, name='admin-setup-create'),
     path('api/admin/login/', views.admin_login, name='admin-login'),
     path('api/admin/logout/', views.admin_logout, name='admin-logout'),
     path('api/admin/dashboard/', views.admin_dashboard, name='admin-dashboard'),

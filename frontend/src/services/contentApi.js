@@ -114,6 +114,18 @@ export const adminDeleteMessage = async (token, messageId) => {
   });
 };
 
+export const checkAdminSetup = async () => {
+  return requestJson(`${API_BASE}/admin/setup/check/`);
+};
+
+export const createFirstAdmin = async (payload) => {
+  return requestJson(`${API_BASE}/admin/setup/create/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+};
+
 export const adminLogin = async (payload) => {
   return requestJson(`${API_BASE}/admin/login/`, {
     method: 'POST',
