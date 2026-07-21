@@ -179,24 +179,18 @@ USE_CLOUDINARY = all([
     os.environ.get("CLOUDINARY_API_SECRET"),
 ])
 
-try:
-    from cloudinary_storage.storage import MediaCloudinaryStorage
-    class AutoCloudinaryStorage(MediaCloudinaryStorage):
-        def _get_resource_type(self, name):
-            if not name:
-                return 'image'
-            ext = name.split('.')[-1].lower() if '.' in name else ''
-            if ext in ['mp4', 'webm', 'ogg', 'mov', 'avi']:
-                return 'video'
-            return 'image'
-except ImportError:
-    pass
-
 # Storage Configuration
 STORAGES = {
     "default": {
         "BACKEND": (
-            "config.settings.AutoCloudinaryStorage"
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+            if USE_CLOUDINARY
+            else "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "video_storage": {
+        "BACKEND": (
+            "cloudinary_storage.storage.VideoMediaCloudinaryStorage"
             if USE_CLOUDINARY
             else "django.core.files.storage.FileSystemStorage"
         ),
