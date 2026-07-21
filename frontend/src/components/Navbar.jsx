@@ -5,18 +5,21 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinkClass = ({ isActive }) =>
-    isActive
-      ? "text-blue-600 font-semibold"
-      : "text-gray-700 hover:text-blue-600 transition";
+    `text-sm font-bold tracking-wider uppercase transition-all duration-300 pb-1 border-b-2 ${
+      isActive
+        ? "text-luxury-bronze border-luxury-gold font-semibold"
+        : "text-slate-600 hover:text-luxury-bronze border-transparent hover:border-luxury-gold/40"
+    }`;
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 backdrop-blur-md bg-luxury-cream/85 border-b border-luxury-gold/15 shadow-sm transition-luxury">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
 
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-blue-600">
-            Modern Homes
+          <Link to="/" className="text-xl md:text-2xl font-bold font-serif tracking-widest text-luxury-bronze flex items-center gap-1">
+            <span>MODERN</span>
+            <span className="font-light text-luxury-gold">HOMES</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -42,53 +45,81 @@ const Navbar = () => {
               Gallery
             </NavLink>
 
+            <NavLink to="/posts" className={navLinkClass}>
+              Posts
+            </NavLink>
+
             <NavLink to="/contact" className={navLinkClass}>
               Contact
             </NavLink>
 
-            <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-              Get Quote
-            </button>
+            <NavLink to="/admin" className={navLinkClass}>
+              Admin
+            </NavLink>
+
+            <Link
+              to="/contact"
+              className="rounded-full bg-luxury-bronze hover:bg-luxury-gold text-white px-6 py-2.5 text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+            >
+              Free Consultation
+            </Link>
 
           </div>
 
           {/* Mobile Button */}
           <button
-            className="md:hidden text-3xl"
+            className="md:hidden text-2xl text-luxury-bronze p-2 hover:bg-luxury-warm-gray rounded-xl transition"
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle Navigation"
           >
-            ☰
+            {isOpen ? "✕" : "☰"}
           </button>
 
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden flex flex-col gap-4 py-4">
+          <div className="md:hidden flex flex-col gap-5 border-t border-luxury-gold/10 py-6 animate-fade-up">
 
-            <NavLink to="/" className={navLinkClass}>
+            <NavLink to="/" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Home
             </NavLink>
 
-            <NavLink to="/about" className={navLinkClass}>
+            <NavLink to="/about" className={navLinkClass} onClick={() => setIsOpen(false)}>
               About
             </NavLink>
 
-            <NavLink to="/products" className={navLinkClass}>
+            <NavLink to="/products" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Products
             </NavLink>
 
-            <NavLink to="/services" className={navLinkClass}>
+            <NavLink to="/services" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Services
             </NavLink>
 
-            <NavLink to="/gallery" className={navLinkClass}>
+            <NavLink to="/gallery" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Gallery
             </NavLink>
 
-            <NavLink to="/contact" className={navLinkClass}>
+            <NavLink to="/posts" className={navLinkClass} onClick={() => setIsOpen(false)}>
+              Posts
+            </NavLink>
+
+            <NavLink to="/contact" className={navLinkClass} onClick={() => setIsOpen(false)}>
               Contact
             </NavLink>
+
+            <NavLink to="/admin" className={navLinkClass} onClick={() => setIsOpen(false)}>
+              Admin
+            </NavLink>
+
+            <Link
+              to="/contact"
+              onClick={() => setIsOpen(false)}
+              className="rounded-full bg-luxury-bronze hover:bg-luxury-gold text-white px-6 py-3 text-center text-xs font-bold tracking-widest uppercase transition shadow-md"
+            >
+              Free Consultation
+            </Link>
 
           </div>
         )}

@@ -1,1 +1,125 @@
 @import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  
+  --color-luxury-gold: #C5A880;
+  --color-luxury-gold-dark: #A88E6B;
+  --color-luxury-gold-light: #DFCDA8;
+  --color-luxury-bronze: #8E7047;
+  --color-luxury-cream: #0B0C0E;
+  --color-luxury-warm-gray: #13151A;
+  --color-luxury-sand: #1D2028;
+  --color-luxury-charcoal: #FAF9F6;
+  --color-luxury-dark-blue: #07080A;
+  --color-luxury-obsidian: #040507;
+  
+  --animate-fade-up: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-luxury-cream);
+  color: var(--color-luxury-charcoal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: var(--animate-fade-up);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom premium helper utilities */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.luxury-card-glow {
+  box-shadow: 0 12px 34px -12px rgba(197, 168, 128, 0.04), 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-card-glow:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 48px -18px rgba(197, 168, 128, 0.15), 0 0 0 1px rgba(197, 168, 128, 0.2);
+  background-color: #171B23 !important;
+}
+
+.transition-luxury {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-gradient {
+  background: linear-gradient(135deg, var(--color-luxury-bronze) 0%, var(--color-luxury-gold-dark) 50%, var(--color-luxury-bronze) 100%);
+  background-size: 200% auto;
+  transition: background-position 0.5s ease;
+}
+
+.luxury-gradient:hover {
+  background-position: right center;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #A88E6B 0%, #DFCDA8 50%, #8E7047 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Scroll reveal core utilities */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-on-scroll.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.gold-glow-blob {
+  position: absolute;
+  background: radial-gradient(circle, rgba(197, 168, 128, 0.09) 0%, rgba(142, 112, 71, 0.02) 60%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}

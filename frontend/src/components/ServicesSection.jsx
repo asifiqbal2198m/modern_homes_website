@@ -48,24 +48,25 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section className="py-20 bg-slate-100">
+    <section className="py-24 bg-luxury-cream border-y border-luxury-gold/15 relative isolate overflow-hidden">
+      <div className="gold-glow-blob -left-48 -top-48 w-96 h-96" />
+      <div className="gold-glow-blob -right-48 -bottom-48 w-96 h-96" />
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        <div className="text-center">
-
-          <h2 className="text-4xl font-bold">
-            Our Services
-          </h2>
-
-          <p className="text-gray-600 mt-4">
-            We provide complete interior decoration solutions with premium quality products.
+        <div className="text-center max-w-3xl mx-auto mb-16 reveal-on-scroll">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-luxury-bronze">
+            Bespoke Solutions
           </p>
-
+          <h2 className="font-serif text-4xl font-normal text-luxury-charcoal sm:text-5xl">
+            Our Core Services
+          </h2>
+          <p className="text-slate-400 mt-4 font-light">
+            We provide complete interior decoration solutions with premium quality products and detailed workmanship.
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-14">
-
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 reveal-on-scroll">
           {services.map((service, index) => (
             <ServiceCard
               key={index}
@@ -74,11 +75,9 @@ const ServicesSection = () => {
               image={service.image}
             />
           ))}
-
         </div>
 
       </div>
-
     </section>
   );
 };

@@ -1,62 +1,49 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { fetchHomepageMedia } from "../services/contentApi";
+
+const fallbackVideo = "https://videos.pexels.com/video-files/3129957/3129957-hd_1920_1080_25fps.mp4";
 
 const Hero = () => {
+  const [media, setMedia] = useState({ videoUrl: fallbackVideo, poster: null });
+
+  useEffect(() => {
+    fetchHomepageMedia().then((settings) => {
+      if (settings.videoUrl || settings.poster) {
+        setMedia({ videoUrl: settings.videoUrl || fallbackVideo, poster: settings.poster });
+      }
+    });
+  }, []);
+
   return (
-    <section className="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-900 text-white">
-      <div className="max-w-7xl mx-auto px-6 py-24 lg:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-
-          {/* Left Content */}
-          <div>
-            <p className="text-blue-400 uppercase tracking-widest font-semibold mb-3">
-              Welcome to Modern Homes
-            </p>
-
-            <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-              Transform Your Home with
-              <span className="text-blue-400"> Premium Interior Solutions</span>
-            </h1>
-
-            <p className="mt-6 text-gray-300 text-lg leading-8">
-              Discover premium wallpapers, blinds, curtains, wooden flooring,
-              carpets, artificial grass, PVC flooring, and elegant home décor
-              designed to enhance every space.
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link
-                to="/products"
-                className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition"
-              >
-                Explore Products
-              </Link>
-
-              <Link
-                to="/contact"
-                className="border border-white hover:bg-white hover:text-black px-6 py-3 rounded-lg font-semibold transition"
-              >
-                Contact Us
-              </Link>
-            </div>
+    <section className="relative isolate overflow-hidden bg-luxury-dark-blue text-white min-h-[85vh] flex items-center">
+      <video className="absolute inset-0 -z-20 h-full w-full object-cover" src={media.videoUrl} poster={media.poster || undefined} autoPlay muted loop playsInline />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-luxury-dark-blue/95 via-luxury-dark-blue/80 to-transparent" />
+      <div className="absolute -left-24 top-16 -z-10 h-80 w-80 rounded-full bg-luxury-gold/10 blur-3xl" />
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32 w-full">
+        <div className="max-w-3xl">
+          <p className="mb-6 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-luxury-gold">
+            <span className="h-[1px] w-8 bg-luxury-gold/50" /> Designed for finer living
+          </p>
+          <h1 className="animate-fade-up font-serif text-5xl font-normal leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+            Interiors that make
+            <span className="block text-luxury-gold font-light italic mt-2"> every day exceptional.</span>
+          </h1>
+          <p className="mt-8 max-w-xl animate-fade-up text-base md:text-lg leading-relaxed text-slate-300 font-light delay-150">
+            Discover premium wallpapers, blinds, curtains, wooden flooring, carpets, artificial grass, and elegant turnkey decor designed to elevate every space.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-4 animate-fade-up">
+            <Link to="/products" className="rounded-full bg-luxury-gold hover:bg-luxury-gold-dark text-luxury-dark-blue px-8 py-4 text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-lg hover:-translate-y-0.5">
+              Explore Products
+            </Link>
+            <Link to="/contact" className="rounded-full border border-white/30 bg-white/5 hover:bg-white hover:text-luxury-dark-blue px-8 py-4 text-xs font-bold tracking-widest uppercase backdrop-blur transition-all duration-300 hover:-translate-y-0.5">
+              Free Consultation
+            </Link>
           </div>
-
-          {/* Right Content */}
-          <div className="flex justify-center">
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-10 w-full max-w-md shadow-xl">
-              <h2 className="text-3xl font-bold mb-6">
-                Why Choose Us?
-              </h2>
-
-              <ul className="space-y-4 text-lg">
-                <li>✔ Premium Quality Products</li>
-                <li>✔ Affordable Pricing</li>
-                <li>✔ Expert Installation</li>
-                <li>✔ Modern Interior Designs</li>
-                <li>✔ Trusted Customer Service</li>
-              </ul>
-            </div>
-          </div>
-
+        </div>
+        <div className="mt-16 flex items-center gap-4 text-xs font-bold uppercase tracking-wider text-slate-300">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-luxury-gold/20 text-luxury-gold text-sm">✦</span>
+          Curated materials. Expert fitting. Timeless results.
         </div>
       </div>
     </section>
