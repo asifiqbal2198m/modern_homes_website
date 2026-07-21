@@ -161,17 +161,39 @@ ADMINS = [
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Media files (Uploaded images and videos)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Media files
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
-# Cloudinary Media Storage configuration
-CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+# Cloudinary Configuration
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+}
 
-# WhiteNoise storage configuration
+# Use Cloudinary only if all credentials exist
+USE_CLOUDINARY = all([
+    os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    os.environ.get("CLOUDINARY_API_KEY"),
+    os.environ.get("CLOUDINARY_API_SECRET"),
+])
+
+try:
+    from cloudinary_storage.storage import MediaCloudinaryStorage
+    class AutoCloudinaryStorage(MediaCloudinaryStorage):
+        RESOURCE_TYPE = 'auto'
+except ImportError:
+    pass
+
+# Storage Configuration
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage" if CLOUDINARY_URL else "django.core.files.storage.FileSystemStorage",
+        "BACKEND": (
+            "config.settings.AutoCloudinaryStorage"
+            if USE_CLOUDINARY
+            else "django.core.files.storage.FileSystemStorage"
+        ),
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
