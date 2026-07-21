@@ -34,7 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-ye_uvhtd*&8i3julm7o%o
 DEBUG = os.environ.get('DEBUG', 'True').lower() in ('true', '1', 't')
 
 # ALLOWED_HOSTS configuration
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1 [::1]').split()
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1 [::1]').replace(',', ' ').split() if h.strip()]
 
 # Add Render external hostname if it exists
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
