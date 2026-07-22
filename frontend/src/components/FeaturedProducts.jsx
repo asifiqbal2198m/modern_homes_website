@@ -40,7 +40,7 @@ const FeaturedProducts = () => {
             title: item.title || item.name,
             description: item.description,
           }));
-          setProducts([...apiItems, ...fallbackProducts]);
+          setProducts(apiItems.length > 0 ? apiItems : fallbackProducts);
         }
       })
       .catch(() => {

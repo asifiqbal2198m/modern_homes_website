@@ -89,14 +89,11 @@ const Gallery = ({ title = "Our Gallery", showButton = true }) => {
     fetchGalleryImages()
       .then((data) => {
         if (isMounted) {
-          setGalleryItems([
-            ...data.filter((item) => item.image || item.imageUrl).map((item) => ({ src: item.image || item.imageUrl, alt: item.title, isDemo: false })),
-            ...fallbackGalleryItems,
-          ]);
-          setVideoItems([
-            ...data.filter((item) => item.videoUrl || item.video || item.video_url).map((item) => ({ src: item.videoUrl || item.video || item.video_url, alt: item.title, isDemo: false })),
-            ...fallbackVideoItems,
-          ]);
+          const userImages = data.filter((item) => item.image || item.imageUrl).map((item) => ({ src: item.image || item.imageUrl, alt: item.title, isDemo: false }));
+          const userVideos = data.filter((item) => item.videoUrl || item.video || item.video_url).map((item) => ({ src: item.videoUrl || item.video || item.video_url, alt: item.title, isDemo: false }));
+
+          setGalleryItems(userImages.length > 0 ? userImages : fallbackGalleryItems);
+          setVideoItems(userVideos.length > 0 ? userVideos : fallbackVideoItems);
         }
       })
       .catch(() => {

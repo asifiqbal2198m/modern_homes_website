@@ -31,7 +31,7 @@ const Products = () => {
             image: item.image,
             isDemo: false,
           }));
-          setProductsList([...apiProducts, ...fallbackProducts]);
+          setProductsList(apiProducts.length > 0 ? apiProducts : fallbackProducts);
         }
       })
       .catch(() => {
