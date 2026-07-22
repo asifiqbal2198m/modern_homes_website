@@ -28,8 +28,8 @@ const GalleryVideo = ({ item }) => {
   const videoRef = useRef(null);
   const [isPlayingWithSound, setIsPlayingWithSound] = useState(false);
 
-  // Normalize Cloudinary video URLs missing extension to guarantee HTML5 MIME type decoding
-  const videoUrl = item.src && item.src.includes('cloudinary.com') && !item.src.endsWith('.mp4')
+  // Normalize video URLs missing extension to guarantee HTML5 video stream decoding
+  const videoUrl = item.src && !/\.(mp4|webm|ogg|mov|avi)$/i.test(item.src)
     ? `${item.src}.mp4`
     : item.src;
 

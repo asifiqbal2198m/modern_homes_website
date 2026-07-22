@@ -1,18 +1,24 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
 const API_BASE = import.meta.env.VITE_API_BASE || "/api";
 
-const normalizeImageUrl = (value) => {
+export const normalizeImageUrl = (value) => {
   if (!value) return null;
-  if (typeof value === 'string' && (value.startsWith('http://') || value.startsWith('https://'))) {
-    return value;
+  let str = String(value).trim();
+  if (str.startsWith('http://') || str.startsWith('https://')) {
+    return str;
   }
-  if (typeof value === 'string' && value.startsWith('/')) {
-    if (value.startsWith('/media/')) {
-      return `${BACKEND_URL}${value}`;
-    }
-    return value;
+  if (str.startsWith('/media/media/')) {
+    str = str.replace('/media/media/', '/media/');
+  } else if (str.startsWith('media/media/')) {
+    str = str.replace('media/media/', '/media/');
+  } else if (str.startsWith('media/')) {
+    str = '/' + str;
+  } else if (!str.startsWith('/')) {
+    str = '/media/' + str;
   }
-  return `${BACKEND_URL}/media/${value}`;
+
+  const base = BACKEND_URL || '';
+  return `${base}${str}`;
 };
 
 export const fetchProducts = async () => {
