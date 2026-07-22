@@ -28,10 +28,7 @@ const GalleryVideo = ({ item }) => {
   const videoRef = useRef(null);
   const [isPlayingWithSound, setIsPlayingWithSound] = useState(false);
 
-  // Normalize video URLs missing extension to guarantee HTML5 video stream decoding
-  const videoUrl = item.src && !/\.(mp4|webm|ogg|mov|avi)$/i.test(item.src)
-    ? `${item.src}.mp4`
-    : item.src;
+  const videoUrl = item.src;
 
   const playWithSound = async () => {
     const video = videoRef.current;
@@ -56,10 +53,10 @@ const GalleryVideo = ({ item }) => {
           className="h-72 w-full bg-luxury-obsidian object-contain" 
           controls 
           playsInline 
-          preload="metadata" 
+          preload="auto" 
           onPause={() => setIsPlayingWithSound(false)}
         >
-          <source src={videoUrl} type="video/mp4" />
+          <source src={videoUrl} />
           Your browser does not support video playback.
         </video>
         {!isPlayingWithSound && (
