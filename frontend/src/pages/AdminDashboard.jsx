@@ -156,6 +156,7 @@ const AdminDashboard = ({ token, onLogout }) => {
     setActionLoading(true);
 
     try {
+      const payload = { ...galleryForm };
       if (galleryFile) {
         const isVideo = (galleryFile.type && galleryFile.type.startsWith('video/')) || /\.(mp4|webm|ogg|mov|avi|mkv|flv|wmv)$/i.test(galleryFile.name || '');
         payload[isVideo ? 'video' : 'image'] = galleryFile;
