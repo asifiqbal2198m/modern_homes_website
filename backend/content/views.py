@@ -37,13 +37,31 @@ def _admin_required(view):
 
 
 def product_list(request):
-    products = Product.objects.all().values('id', 'name', 'description', 'image')
-    return JsonResponse(list(products), safe=False)
+    products = Product.objects.all().order_by('-created_at')
+    data = []
+    for p in products:
+        data.append({
+            'id': p.id,
+            'name': p.name,
+            'description': p.description,
+            'image': p.image.url if p.image else None,
+        })
+    return JsonResponse(data, safe=False)
 
 
 def gallery_list(request):
-    images = GalleryImage.objects.all().values('id', 'title', 'image', 'image_url', 'video_url', 'video')
-    return JsonResponse(list(images), safe=False)
+    images = GalleryImage.objects.all().order_by('-created_at')
+    data = []
+    for img in images:
+        data.append({
+            'id': img.id,
+            'title': img.title,
+            'image': img.image.url if img.image else None,
+            'image_url': img.image_url,
+            'video_url': img.video_url,
+            'video': img.video.url if img.video else None,
+        })
+    return JsonResponse(data, safe=False)
 
 
 def homepage_media(request):
@@ -58,8 +76,18 @@ def homepage_media(request):
 
 
 def update_list(request):
-    updates = UpdatePost.objects.all().values('id', 'title', 'content', 'media_url', 'created_at')
-    return JsonResponse(list(updates), safe=False)
+    updates = UpdatePost.objects.all().order_by('-created_at')
+    data = []
+    for p in updates:
+        data.append({
+            'id': p.id,
+            'title': p.title,
+            'content': p.content,
+            'media_url': p.media_url,
+            'media_file': p.media_file.url if p.media_file else None,
+            'created_at': p.created_at,
+        })
+    return JsonResponse(data, safe=False)
 
 
 def contact_messages_list(request):
@@ -236,12 +264,29 @@ def admin_dashboard(request):
     messages = ContactMessage.objects.order_by('-created_at').values(
         'id', 'name', 'email', 'phone', 'message', 'response', 'resolved', 'is_read', 'created_at'
     )
-    gallery = GalleryImage.objects.order_by('-created_at').values(
-        'id', 'title', 'image', 'image_url', 'video_url', 'video', 'created_at'
-    )
-    posts = UpdatePost.objects.order_by('-created_at').values(
-        'id', 'title', 'content', 'media_url', 'created_at'
-    )
+    gallery_qs = GalleryImage.objects.order_by('-created_at')
+    gallery_data = []
+    for img in gallery_qs:
+        gallery_data.append({
+            'id': img.id,
+            'title': img.title,
+            'image': img.image.url if img.image else None,
+            'image_url': img.image_url,
+            'video_url': img.video_url,
+            'video': img.video.url if img.video else None,
+            'created_at': img.created_at,
+        })
+    posts_qs = UpdatePost.objects.order_by('-created_at')
+    posts = []
+    for p in posts_qs:
+        posts.append({
+            'id': p.id,
+            'title': p.title,
+            'content': p.content,
+            'media_url': p.media_url,
+            'media_file': p.media_file.url if p.media_file else None,
+            'created_at': p.created_at,
+        })
     homepage = HomepageMedia.objects.order_by('-updated_at').first()
     homepage_media_data = {
         'video_url': homepage.video_url if homepage else None,
@@ -269,8 +314,8 @@ def admin_dashboard(request):
 
     return JsonResponse({
         'messages': list(messages),
-        'gallery': list(gallery),
-        'posts': list(posts),
+        'gallery': gallery_data,
+        'posts': posts,
         'homepage_media': homepage_media_data,
         'reviews': list(reviews),
         'review_settings': settings_data,
@@ -311,10 +356,19 @@ def admin_homepage_media(request):
 @require_http_methods(['GET', 'POST'])
 def admin_gallery_items(request):
     if request.method == 'GET':
-        items = GalleryImage.objects.order_by('-created_at').values(
-            'id', 'title', 'image', 'image_url', 'video_url', 'video', 'created_at'
-        )
-        return JsonResponse(list(items), safe=False)
+        items_qs = GalleryImage.objects.order_by('-created_at')
+        items_data = []
+        for img in items_qs:
+            items_data.append({
+                'id': img.id,
+                'title': img.title,
+                'image': img.image.url if img.image else None,
+                'image_url': img.image_url,
+                'video_url': img.video_url,
+                'video': img.video.url if img.video else None,
+                'created_at': img.created_at,
+            })
+        return JsonResponse(items_data, safe=False)
 
     try:
         # Support JSON body or multipart/form-data with files
