@@ -30,6 +30,15 @@ const GalleryVideo = ({ item }) => {
 
   const videoUrl = item.src;
 
+  const handlePlay = (event) => {
+    const currentVideo = event.target;
+    document.querySelectorAll('video').forEach((v) => {
+      if (v !== currentVideo) {
+        v.pause();
+      }
+    });
+  };
+
   const playWithSound = async () => {
     const video = videoRef.current;
     if (!video) return;
@@ -54,6 +63,7 @@ const GalleryVideo = ({ item }) => {
           controls 
           playsInline 
           preload="auto" 
+          onPlay={handlePlay}
           onPause={() => setIsPlayingWithSound(false)}
         >
           <source src={videoUrl} />
