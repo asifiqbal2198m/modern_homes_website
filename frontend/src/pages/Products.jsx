@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import wallpaper from "../assets/images/products/wallpaper.jpg";
 import flooring from "../assets/images/products/flooring.jpg";
 import curtains from "../assets/images/products/curtains.jpg";
@@ -5,8 +6,9 @@ import blinds from "../assets/images/products/blinds.jpg";
 import carpets from "../assets/images/products/carpets.jpg";
 import grass from "../assets/images/products/grass.jpg";
 import PageMeta from "../components/PageMeta";
+import { fetchProducts } from "../services/contentApi";
 
-const products = [
+const fallbackProducts = [
   { title: "Premium Wallpapers", description: "Elegant patterns for walls and feature spaces.", image: wallpaper },
   { title: "Wooden Flooring", description: "Warm and durable flooring for modern homes.", image: flooring },
   { title: "Curtains", description: "Stylish curtains in premium fabrics and finishes.", image: curtains },
@@ -16,6 +18,33 @@ const products = [
 ];
 
 const Products = () => {
+  const [productsList, setProductsList] = useState(fallbackProducts);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchProducts()
+      .then((data) => {
+        if (isMounted && data && data.length) {
+          const apiProducts = data.map((item) => ({
+            title: item.title || item.name,
+            description: item.description,
+            image: item.image,
+            isDemo: false,
+          }));
+          setProductsList([...apiProducts, ...fallbackProducts]);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setProductsList(fallbackProducts);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="bg-luxury-warm-gray/20 py-24 border-b border-luxury-gold/15 min-h-[75vh]">
       <PageMeta title="Interior Products" description="Explore premium wallpapers, wooden flooring, curtains, blinds, carpets, and artificial grass from Modern Homes Interior Decor in Magam." />
@@ -30,7 +59,7 @@ const Products = () => {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {products.map((product, index) => (
+          {productsList.map((product, index) => (
             <div key={index} className="group overflow-hidden rounded-3xl bg-white border border-luxury-gold/10 luxury-card-glow transition-luxury">
               <div className="h-64 overflow-hidden relative">
                 <img src={product.image} alt={product.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />

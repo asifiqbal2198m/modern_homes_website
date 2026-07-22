@@ -34,8 +34,13 @@ const FeaturedProducts = () => {
 
     fetchProducts()
       .then((data) => {
-        if (isMounted && data.length) {
-          setProducts(data);
+        if (isMounted && data && data.length) {
+          const apiItems = data.map((item) => ({
+            image: item.image,
+            title: item.title || item.name,
+            description: item.description,
+          }));
+          setProducts([...apiItems, ...fallbackProducts]);
         }
       })
       .catch(() => {
