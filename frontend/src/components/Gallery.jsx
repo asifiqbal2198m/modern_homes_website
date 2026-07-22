@@ -28,6 +28,11 @@ const GalleryVideo = ({ item }) => {
   const videoRef = useRef(null);
   const [isPlayingWithSound, setIsPlayingWithSound] = useState(false);
 
+  // Normalize Cloudinary video URLs missing extension to guarantee HTML5 MIME type decoding
+  const videoUrl = item.src && item.src.includes('cloudinary.com') && !item.src.endsWith('.mp4')
+    ? `${item.src}.mp4`
+    : item.src;
+
   const playWithSound = async () => {
     const video = videoRef.current;
     if (!video) return;
@@ -44,8 +49,17 @@ const GalleryVideo = ({ item }) => {
   return (
     <div className="overflow-hidden rounded-3xl bg-luxury-warm-gray border border-luxury-gold/10 luxury-card-glow flex flex-col justify-between">
       <div className="relative">
-        <video ref={videoRef} className="h-72 w-full bg-luxury-obsidian object-contain" controls playsInline preload="metadata" onPause={() => setIsPlayingWithSound(false)}>
-          <source src={item.src} />
+        <video 
+          key={videoUrl}
+          ref={videoRef} 
+          src={videoUrl}
+          className="h-72 w-full bg-luxury-obsidian object-contain" 
+          controls 
+          playsInline 
+          preload="metadata" 
+          onPause={() => setIsPlayingWithSound(false)}
+        >
+          <source src={videoUrl} type="video/mp4" />
           Your browser does not support video playback.
         </video>
         {!isPlayingWithSound && (

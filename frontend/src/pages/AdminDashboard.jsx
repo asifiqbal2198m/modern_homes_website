@@ -720,10 +720,10 @@ const AdminDashboard = ({ token, onLogout }) => {
                           ) : (
                             <img src={URL.createObjectURL(galleryFile)} alt="Preview" className="h-full w-full object-contain" />
                           )
-                        ) : galleryForm.video_url ? (
-                          <video src={galleryForm.video_url} className="h-full w-full object-contain" controls />
-                        ) : galleryForm.image_url ? (
-                          <img src={galleryForm.image_url} alt="Preview" className="h-full w-full object-contain" />
+                        ) : galleryForm.video_url || galleryForm.video ? (
+                          <video src={galleryForm.video_url || galleryForm.video} className="h-full w-full object-contain" controls />
+                        ) : galleryForm.image_url || galleryForm.image ? (
+                          <img src={galleryForm.image_url || galleryForm.image} alt="Preview" className="h-full w-full object-contain" />
                         ) : null}
                       </div>
                     </div>

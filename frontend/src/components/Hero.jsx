@@ -15,9 +15,13 @@ const Hero = () => {
     });
   }, []);
 
+  const videoSrc = media.videoUrl && media.videoUrl.includes('cloudinary.com') && !media.videoUrl.endsWith('.mp4')
+    ? `${media.videoUrl}.mp4`
+    : media.videoUrl;
+
   return (
     <section className="relative isolate overflow-hidden bg-luxury-dark-blue text-white min-h-[85vh] flex items-center">
-      <video className="absolute inset-0 -z-20 h-full w-full object-cover" src={media.videoUrl} poster={media.poster || undefined} autoPlay muted loop playsInline />
+      <video key={videoSrc} className="absolute inset-0 -z-20 h-full w-full object-cover" src={videoSrc} poster={media.poster || undefined} autoPlay muted loop playsInline />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-luxury-dark-blue/95 via-luxury-dark-blue/80 to-transparent" />
       <div className="absolute -left-24 top-16 -z-10 h-80 w-80 rounded-full bg-luxury-gold/10 blur-3xl" />
       <div className="mx-auto max-w-7xl px-6 py-24 md:py-32 w-full">
