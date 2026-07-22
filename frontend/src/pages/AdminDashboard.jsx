@@ -156,9 +156,9 @@ const AdminDashboard = ({ token, onLogout }) => {
     setActionLoading(true);
 
     try {
-      const payload = { ...galleryForm };
       if (galleryFile) {
-        payload[galleryFile.type.startsWith('video/') ? 'video' : 'image'] = galleryFile;
+        const isVideo = (galleryFile.type && galleryFile.type.startsWith('video/')) || /\.(mp4|webm|ogg|mov|avi|mkv|flv|wmv)$/i.test(galleryFile.name || '');
+        payload[isVideo ? 'video' : 'image'] = galleryFile;
       }
 
       if (editingGalleryId) {
@@ -715,7 +715,7 @@ const AdminDashboard = ({ token, onLogout }) => {
                       <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-luxury-bronze">Preview</p>
                       <div className="overflow-hidden rounded-xl bg-white flex items-center justify-center aspect-video max-h-36">
                         {galleryFile ? (
-                          galleryFile.type.startsWith('video/') ? (
+                          ((galleryFile.type && galleryFile.type.startsWith('video/')) || /\.(mp4|webm|ogg|mov|avi|mkv|flv|wmv)$/i.test(galleryFile.name || '')) ? (
                             <video src={URL.createObjectURL(galleryFile)} className="h-full w-full object-contain" controls />
                           ) : (
                             <img src={URL.createObjectURL(galleryFile)} alt="Preview" className="h-full w-full object-contain" />
