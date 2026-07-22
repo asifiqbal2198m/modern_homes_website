@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/images/logo.png";
 
 const Footer = () => {
   return (
@@ -9,9 +10,15 @@ const Footer = () => {
 
           {/* Company */}
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold font-serif tracking-widest text-luxury-gold">
-              MODERN HOMES
-            </h2>
+            <div className="flex items-center gap-3">
+              <img src={logo} alt="Modern Homes Magam Logo" className="h-12 w-12 object-contain rounded-full shadow-md border border-luxury-gold/30" />
+              <div>
+                <h2 className="text-xl font-bold font-serif tracking-widest text-luxury-gold leading-tight">
+                  MODERN HOMES
+                </h2>
+                <p className="text-[10px] font-bold tracking-[0.25em] text-luxury-gold/80 uppercase">MAGAM</p>
+              </div>
+            </div>
             <p className="text-slate-400 leading-7 text-sm font-light">
               We provide premium wallpapers, flooring, blinds, curtains, carpets, and turnkey interior decoration solutions. Authorized Excel partner, dedicated to excellence in Kashmir.
             </p>

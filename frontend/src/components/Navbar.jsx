@@ -1,6 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
+import logo from "../assets/images/logo.png";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -17,9 +19,12 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
 
           {/* Logo */}
-          <Link to="/" className="text-xl md:text-2xl font-bold font-serif tracking-widest text-luxury-bronze flex items-center gap-1">
-            <span>MODERN</span>
-            <span className="font-light text-luxury-gold">HOMES</span>
+          <Link to="/" className="flex items-center gap-3 group">
+            <img src={logo} alt="Modern Homes Magam Logo" className="h-11 w-11 object-contain rounded-full shadow-sm group-hover:scale-105 transition-transform duration-300" />
+            <div className="flex flex-col">
+              <span className="text-lg md:text-xl font-bold font-serif tracking-widest text-luxury-bronze leading-none">MODERN HOMES</span>
+              <span className="text-[10px] font-bold tracking-[0.25em] text-luxury-gold uppercase mt-0.5">MAGAM</span>
+            </div>
           </Link>
 
           {/* Desktop Menu */}
